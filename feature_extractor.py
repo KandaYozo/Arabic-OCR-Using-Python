@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import fftpack
 from skimage import util, filters
-from scipy.ndimage.measurements import label
+from scipy.ndimage.measurements import label, find_objects
 from scipy.ndimage.morphology import generate_binary_structure
 from skimage.morphology import binary_dilation, binary_erosion, area_closing
 from skimage.feature import canny
@@ -17,5 +17,8 @@ def extract(img):
     out = np.copy(features)
     out[features[:,:] <= 0] = 255
     out[features[:,:] > 0] = 0
-    #show_images([features, out],['Feature Photo', 'Number Of Detected Words:{}'.format(number)])
+    loc = find_objects(features) #returns all locations of objects
+    # Words are stored in reverse order from left to right:
+    # بكم -> حبا  -> مر
+    show_images([features, out, img[loc[0]]],['Feature Photo', 'Number Of Detected Words:{}'.format(number), 'try'])
     return features, number
