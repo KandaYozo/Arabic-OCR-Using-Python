@@ -20,5 +20,5 @@ def extract(img):
     loc = find_objects(features) #returns all locations of objects
     # Words are stored in reverse order from left to right:
     # بكم -> حبا  -> مر
-    show_images([features, out, img[loc[0]]],['Feature Photo', 'Number Of Detected Words:{}'.format(number), 'try'])
+    #show_images([features, out, img[loc[0]]],['Feature Photo', 'Number Of Detected Words:{}'.format(number), 'try'])
     return features, number
