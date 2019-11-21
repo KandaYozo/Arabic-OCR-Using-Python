@@ -27,10 +27,11 @@ for i in range(Number_Of_Files):
         input_image = cv2.cvtColor(input_image, cv2.COLOR_BGR2GRAY)
 
     ret,thresh1 = cv2.threshold(input_image, 0, 255,cv2.THRESH_OTSU|cv2.THRESH_BINARY_INV)
-    cv2.imshow('thresh1', thresh1)
+    cv2.imshow('Thresholded Image', thresh1)
+    
     rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
     dilation = cv2.dilate(thresh1, rect_kernel, iterations = 1)
-    cv2.imshow('dilation', dilation)
+    cv2.imshow('After Dilation', dilation)
 
     contours, hierarchy = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
