@@ -1,24 +1,33 @@
 import numpy as np
-from scipy import fftpack
-from skimage import util, filters
-from scipy.ndimage.measurements import label, find_objects
-from scipy.ndimage.morphology import generate_binary_structure
-from skimage.morphology import binary_dilation, binary_erosion, area_closing
-from skimage.feature import canny
-from helper_functions import show_images
+import cv2
 
-#Function expects the image in grayscale
+#Function expects the image in binary
 def extract(img):
-    img[img[:,:] < 1] = 0
-    img = util.invert(img)
-    img = binary_dilation(img)
-    s = generate_binary_structure(2,2)
-    features, number = label(img, structure = s)
-    out = np.copy(features)
-    out[features[:,:] <= 0] = 255
-    out[features[:,:] > 0] = 0
-    loc = find_objects(features) #returns all locations of objects
-    # Words are stored in reverse order from left to right:
-    # بكم -> حبا  -> مر
-    #show_images([features, out, img[loc[0]]],['Feature Photo', 'Number Of Detected Words:{}'.format(number), 'try'])
-    return features, number
+    
+    H = cv2.Sobel(img, cv2.CV_8U, 0, 2)
+    V = cv2.Sobel(img, cv2.CV_8U, 2, 0)
+    
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5)) 
+    
+    #If Word is 255 - then erode
+    new_img = cv2.erode(img, kernel, iterations= 5)
+    #else
+    #new_img = cv2.dilate(img, kernel, iterations= 5)
+    
+    contours, hierarchy = cv2.findContours(new_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    im2 = img.copy()
+    
+    
+    #cv2.imshow('Trial For Letters',new_img)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+    
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)) 
+    new_img = cv2.erode(new_img, kernel, iterations= 2)
+                
+    #cv2.imshow('Trial After Erosion',new_img)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+    
+    
+    
