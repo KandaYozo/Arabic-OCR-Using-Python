@@ -1,21 +1,16 @@
-import matplotlib.pyplot as plt
+import cv2
 import numpy as np
 
-def show_images(images,titles=None):
-    #This function is used to show image(s) with titles by sending an array of images and an array of associated titles.
-    # images[0] will be drawn with the title titles[0] if exists
-    # You aren't required to understand this function, use it as-is.
-    n_ims = len(images)
-    if titles is None: titles = ['(%d)' % i for i in range(1,n_ims + 1)]
-    fig = plt.figure()
-    n = 1
-    for image,title in zip(images,titles):
-        a = fig.add_subplot(1,n_ims,n)
-        if image.ndim == 2: 
-            plt.gray()
-        plt.imshow(image)
-        a.set_title(title)
-        plt.axis('off')
-        n += 1
-    fig.set_size_inches(np.array(fig.get_size_inches()) * n_ims)
-    plt.show() 
+def correct_skew(thresh):
+    coords = np.column_stack(np.where(thresh > 0))
+    angle = cv2.minAreaRect(coords)[-1]
+    if angle < -45:
+	    angle = -(90 + angle)
+    else:
+	    angle = -angle
+    
+    (h, w) = thresh.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(thresh, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+    return rotated
