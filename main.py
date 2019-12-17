@@ -8,12 +8,11 @@ from imutils import contours
 from feature_extractor import vertical_Proj
 from helper_functions import correct_skew
 
-predefined_word_width = 300
-predefined_word_height = 800
+predefined_word_width = 200
+predefined_word_height = 500
 
-#Images_Path = './Pattern Data Set/scanned/'
-#Text_Path = './Pattern Data Set/text/'
-Images_Path = './Test Data Set/'
+Images_Path = './Pattern Data Set/scanned/'
+#Images_Path = './Test Data Set/'
 
 Number_Of_Files = 1 #Sample of Files to check on           
 gen =  glob.iglob(Images_Path + "*.png")
@@ -50,11 +49,11 @@ for i in range(Number_Of_Files):
             dim = (predefined_word_height,predefined_word_width)
             trial_image[trial_image < 255] = 0
             trial_image = 255 - trial_image
-            resized = cv2.resize(trial_image[y:fy,x:fx], dim, interpolation = cv2.INTER_AREA)
-            
-            cv2.imshow('T', resized)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            #resized = cv2.resize(trial_image[y:fy,x:fx], dim, interpolation = cv2.INTER_AREA)
+            resized = trial_image[y:fy,x:fx]
+            #cv2.imshow('T', resized)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
             
             
             VP = vertical_Proj(resized)
