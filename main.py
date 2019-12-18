@@ -11,15 +11,15 @@ from helper_functions import correct_skew
 predefined_word_width = 200
 predefined_word_height = 500
 
-Images_Path = './Pattern Data Set/scanned/'
-#Images_Path = './Test Data Set/'
+#Images_Path = './Pattern Data Set/scanned/'
+Images_Path = './Test Data Set/'
 
 Number_Of_Files = 1 #Sample of Files to check on           
 gen =  glob.iglob(Images_Path + "*.png")
 for i in range(Number_Of_Files):
     py = next(gen)
     input_image = cv2.imread(py)
-    
+    input_image = cv2.imread("./Pattern Data Set/scanned/capr2.png")
     if len(input_image.shape) == 3:
         input_image = cv2.cvtColor(input_image, cv2.COLOR_BGR2GRAY)
     #Correct image if it is rotated:
@@ -58,5 +58,6 @@ for i in range(Number_Of_Files):
             
             VP = vertical_Proj(resized)
             #Total_Projections.append(VP)
+            
     
 

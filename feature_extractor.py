@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 from scipy import stats
-
+from heapq import nsmallest
 
 def vertical_Proj(img_binary):
     
@@ -9,26 +9,18 @@ def vertical_Proj(img_binary):
     img_binary = np.array(img_binary)
     img = np.copy(img_binary)
     VP = (np.sum(img, axis = 0))//255
+    
     thresh = stats.mode(VP[VP != 0])[0][0]
     VP2 = VP[VP != 0]
-    VP2 = VP2.tolist()
-    VP = VP.tolist()
-    max_val = max(VP)
-    min_val = min(VP2)
+    max_val = max(VP.tolist())
+    min_val = min(VP2.tolist())
     avg_val = (max_val + min_val)//2
-    actual_min = min_val
-    VP = (np.sum(img, axis = 0))//255
-    VP2 = VP[VP != 0]
-    
-    img[:,VP<=min_val] = 0
-    while min_val < thresh:
-        VP = (np.sum(img, axis = 0))//255
-        VP2 = VP[VP != 0]
-        VP2 = VP2.tolist()
-        min_val = min(VP2)
-        img[:,VP<=min_val] = 0
-            
+    second_min = nsmallest(2, VP2.tolist())[-1]
+    img[:,VP<=second_min] = 0
+        
+    #resized = cv2.resize(img, (600,250), interpolation = cv2.INTER_NEAREST)        
     cv2.imshow('Trial', img)
+    #cv2.imshow('Trial', resized)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     '''
