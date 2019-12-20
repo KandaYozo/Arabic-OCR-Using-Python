@@ -256,6 +256,8 @@ def words_line_segmentation(DBLI, MBLI): # Algo 2
         SR[i].gap_length = len(SR[i+1].gap_indices)
 
     for i in range(0,len(SR)-1):
+        # TODO: Pen Size is strangely calculated in some cases
+        # Ask about stats.mode if more than one value is the MFV
         if SR[i].gap_length > ((SR[i].penSize + SR[i+1].penSize)/2):
             SR[i].segmentType = "wordSegment"
             print("Word")
