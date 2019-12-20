@@ -146,7 +146,6 @@ def preprocessIntoWords(input_image):
     input_image = correct_skew(input_image)
     return DetectLines(input_image)
 
-
 def Is_excess_segment (char):
     HP = getHorizontalProjection (char)
     HP[HP !=0] = 1
@@ -166,7 +165,7 @@ def extractSeparateLettersWholeImage(input_image):
 
         for word in Detected_Words:  
             SegmentedWord = extractFromWord(word,BLI)
-            show_images(SegmentedWord)
+            #show_images(SegmentedWord)
             all_words.append(SegmentedWord)
     return all_words   
 
