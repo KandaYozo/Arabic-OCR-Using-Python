@@ -1,6 +1,9 @@
 import os
 import cv2
 import numpy as np
+from read_files import read_text_file
+import feature_extractor as FE
+from commonfunctions import *
 
 
 def createArabicDictionary():
@@ -49,7 +52,15 @@ def createDataSet(ArabicDictionary,images,labels):
         
         saveLettersToImages(image,str(label))
         i += 1
-
+# getting dictionry
 D = createArabicDictionary()
-img = cv2.imread("./Test Data Set/image.png")
+# getting segments
+input_image = cv2.imread("./Test Data Set/capr1.png")
+all_words = FE.extractSeparateLettersWholeImage(input_image)
+
+img = cv2.imread("./Test Data Set/capr1.png")
+path = './Test Data Set/'
+fileName = 'capr1'
+lis = read_text_file(path,fileName)
+
 createDataSet(D, [img],['ي'])

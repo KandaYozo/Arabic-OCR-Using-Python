@@ -30,6 +30,6 @@ def read_text_file(path,fileName):
     return lis2
 
 # path = './Test Data Set/'
-# fileName = 'test2'
+# fileName = 'capr1'
 # lis = read_text_file(path,fileName)
 # print(lis)
