@@ -1,6 +1,8 @@
 import os
 import cv2
+import csv
 import numpy as np
+import pandas as pd
 from io import StringIO
 
 
@@ -23,6 +25,7 @@ def get_letters_from_word(wordList):
     lettersList = []
     for word in wordList:
         char = list(word)
+        char.reverse()
         lettersList.append(char)
     return lettersList
 
@@ -30,6 +33,20 @@ def read_text_file(path,fileName):
     lis = get_words_from_file(path,fileName)
     lis2 = get_letters_from_word(lis)
     return lis2
+
+#WIP
+# Needs to be made with pandas and in the form of an iterator
+def read_features_from_file(path, fileName):
+    VP_HP_list = []
+    labels_list = []
+    with open('image_label_pair.csv') as file:
+        rows = csv.reader(file, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
+        for row in rows:
+            label = row.pop(-1)
+            labels_list.append(int(label))
+            row = list(np.int_(row))
+            VP_HP_list.append(row)
+    return VP_HP_list, labels_list
 
 
 '''
